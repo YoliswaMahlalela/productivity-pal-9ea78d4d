@@ -110,6 +110,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
+import { AppFooter } from "@/components/AppFooter";
 import { Toaster } from "@/components/ui/sonner";
 
 function RootComponent() {
@@ -130,6 +131,7 @@ function RootComponent() {
             <main className="flex-1">
               <Outlet />
             </main>
+            <AppFooter />
           </div>
         </div>
         <Toaster />
@@ -137,3 +139,4 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
+
