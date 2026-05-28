@@ -32,7 +32,7 @@ export function ResultCard({ title, text }: { title: string; text: string }) {
 
 export function LoadingShimmer({ label = "Generating..." }: { label?: string }) {
   return (
-    <Card className="animate-fade-in border-primary/20">
+    <Card className="animate-fade-in border-primary/20 overflow-hidden">
       <CardContent className="flex flex-col gap-4 py-8">
         <div className="flex items-center gap-3">
           <div className="relative h-5 w-5">
@@ -42,12 +42,16 @@ export function LoadingShimmer({ label = "Generating..." }: { label?: string }) 
           <span className="text-sm font-medium text-muted-foreground">{label}</span>
         </div>
         <div className="space-y-2">
-          <div className="h-3 w-3/4 animate-pulse rounded bg-muted" />
-          <div className="h-3 w-full animate-pulse rounded bg-muted" />
-          <div className="h-3 w-5/6 animate-pulse rounded bg-muted" />
-          <div className="h-3 w-2/3 animate-pulse rounded bg-muted" />
+          {["w-3/4", "w-full", "w-5/6", "w-2/3", "w-11/12"].map((w, i) => (
+            <div
+              key={i}
+              className={`h-3 ${w} rounded bg-gradient-to-r from-muted via-primary/10 to-muted bg-[length:200%_100%]`}
+              style={{ animation: `shimmer 1.6s ease-in-out ${i * 0.12}s infinite` }}
+            />
+          ))}
         </div>
       </CardContent>
     </Card>
   );
 }
+

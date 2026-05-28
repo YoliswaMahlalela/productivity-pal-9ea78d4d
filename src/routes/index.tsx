@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Mail, FileText, ListChecks, LayoutDashboard, ArrowRight, Sparkles } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { PageHeader } from "@/components/PageHeader";
+import { ResponsibleAI } from "@/components/ResponsibleAI";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -85,6 +87,11 @@ function DashboardPage() {
           </Link>
         ))}
       </div>
+
+      <div className="mt-8">
+        <ResponsibleAI />
+      </div>
     </div>
   );
 }
+
