@@ -72,14 +72,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "AI Workplace Productivity Assistant" },
+      { name: "description", content: "An AI powered workplace productivity assistant that helps users generate professional emails, summarise meeting notes, and organise tasks." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "AI Workplace Productivity Assistant" },
+      { property: "og:description", content: "An AI powered workplace productivity assistant that helps users generate professional emails, summarise meeting notes, and organise tasks." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "AI Workplace Productivity Assistant" },
+      { name: "twitter:description", content: "An AI powered workplace productivity assistant that helps users generate professional emails, summarise meeting notes, and organise tasks." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c31aba4e-c8ba-4e42-b22f-1f295bca4e8b/id-preview-ece48a5a--93efee79-bb88-49af-b0ba-5d0170c3f0fc.lovable.app-1779962795189.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c31aba4e-c8ba-4e42-b22f-1f295bca4e8b/id-preview-ece48a5a--93efee79-bb88-49af-b0ba-5d0170c3f0fc.lovable.app-1779962795189.png" },
     ],
     links: [
       {
@@ -110,7 +114,6 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
-import { AppFooter } from "@/components/AppFooter";
 import { Toaster } from "@/components/ui/sonner";
 
 function RootComponent() {
@@ -131,7 +134,6 @@ function RootComponent() {
             <main className="flex-1">
               <Outlet />
             </main>
-            <AppFooter />
           </div>
         </div>
         <Toaster />
@@ -139,4 +141,3 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
-
