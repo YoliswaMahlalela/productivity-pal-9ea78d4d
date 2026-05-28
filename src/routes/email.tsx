@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ListChecks, Sparkles } from "lucide-react";
+import { Mail, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
@@ -16,42 +16,42 @@ import {
 } from "@/components/ui/select";
 import { PageHeader } from "@/components/PageHeader";
 import { LoadingShimmer, ResultCard } from "@/components/ResultCard";
-import { planTasks } from "@/lib/ai.functions";
+import { generateEmail } from "@/lib/ai.functions";
 
-export const Route = createFileRoute("/planner")({
+export const Route = createFileRoute("/email")({
   head: () => ({
     meta: [
-      { title: "AI Task Planner — WorkAI" },
+      { title: "Smart Email Generator — WorkAI" },
       {
         name: "description",
         content:
-          "List your tasks and meetings — AI builds a prioritized daily or weekly schedule with time optimization tips.",
+          "Generate professional workplace emails in any tone — formal, informal, or persuasive — powered by AI.",
       },
     ],
   }),
-  component: PlannerPage,
+  component: EmailPage,
 });
 
-function PlannerPage() {
-  const fn = useServerFn(planTasks);
-  const [tasks, setTasks] = useState("");
-  const [horizon, setHorizon] = useState<"daily" | "weekly">("daily");
+function EmailPage() {
+  const fn = useServerFn(generateEmail);
+  const [topic, setTopic] = useState("");
+  const [tone, setTone] = useState<"formal" | "informal" | "persuasive">("formal");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState("");
 
   const onGenerate = async () => {
-    if (!tasks.trim()) {
-      toast.error("Please enter at least one task or meeting.");
+    if (!topic.trim()) {
+      toast.error("Please enter a topic for the email.");
       return;
     }
     setLoading(true);
     setResult("");
     try {
-      const res = await fn({ data: { tasks, horizon } });
+      const res = await fn({ data: { topic, tone } });
       setResult(res.text);
     } catch (e) {
       console.error(e);
-      toast.error("Couldn't build your schedule. Please try again.");
+      toast.error("Couldn't generate email. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -60,48 +60,50 @@ function PlannerPage() {
   return (
     <div className="mx-auto w-full max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
       <PageHeader
-        icon={ListChecks}
-        title="AI Task Planner"
-        description="List tasks and meetings — AI prioritizes them and suggests time optimizations."
+        icon={Mail}
+        title="Smart Email Generator"
+        description="Describe what you need — AI will draft a polished email in the tone you choose."
       />
 
       <Card className="border-border/60 shadow-sm">
         <CardContent className="space-y-5 pt-6">
           <div className="space-y-2">
-            <Label htmlFor="tasks">Your tasks & meetings</Label>
+            <Label htmlFor="topic">Email topic</Label>
             <Textarea
-              id="tasks"
-              placeholder={"e.g.\n- 10:00 Standup (30m)\n- Finish Q3 report\n- Call client about renewal\n- Review 3 PRs\n- Prep slides for Thursday"}
-              value={tasks}
-              onChange={(e) => setTasks(e.target.value)}
-              rows={10}
-              className="resize-y"
+              id="topic"
+              placeholder="e.g. Ask the design team for revised mockups by Friday"
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
+              rows={4}
+              className="resize-none"
             />
           </div>
+
           <div className="grid gap-5 sm:grid-cols-[1fr_auto] sm:items-end">
             <div className="space-y-2">
-              <Label htmlFor="horizon">Schedule horizon</Label>
-              <Select value={horizon} onValueChange={(v) => setHorizon(v as typeof horizon)}>
-                <SelectTrigger id="horizon" className="w-full sm:w-64">
+              <Label htmlFor="tone">Tone</Label>
+              <Select value={tone} onValueChange={(v) => setTone(v as typeof tone)}>
+                <SelectTrigger id="tone" className="w-full sm:w-64">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="daily">Daily schedule</SelectItem>
-                  <SelectItem value="weekly">Weekly schedule</SelectItem>
+                  <SelectItem value="formal">Formal</SelectItem>
+                  <SelectItem value="informal">Informal</SelectItem>
+                  <SelectItem value="persuasive">Persuasive</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <Button onClick={onGenerate} disabled={loading} size="lg" className="gap-2">
               <Sparkles className="h-4 w-4" />
-              {loading ? "Planning..." : "Build My Schedule"}
+              {loading ? "Generating..." : "Generate Email"}
             </Button>
           </div>
         </CardContent>
       </Card>
 
       <div className="mt-6">
-        {loading && <LoadingShimmer label="Prioritizing and optimizing..." />}
-        {!loading && result && <ResultCard title="Your Prioritized Schedule" text={result} />}
+        {loading && <LoadingShimmer label="Drafting your email..." />}
+        {!loading && result && <ResultCard title="Generated Email" text={result} />}
       </div>
     </div>
   );
