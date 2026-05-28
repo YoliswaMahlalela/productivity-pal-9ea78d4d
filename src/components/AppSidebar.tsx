@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Mail, FileText, ListChecks, Sparkles } from "lucide-react";
+import { Mail, FileText, ListChecks, Sparkles, LayoutDashboard } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -13,9 +13,10 @@ import {
 } from "@/components/ui/sidebar";
 
 const items = [
-  { title: "Email Generator", url: "/", icon: Mail },
-  { title: "Notes Summarizer", url: "/summarizer", icon: FileText },
-  { title: "Task Planner", url: "/planner", icon: ListChecks },
+  { title: "Dashboard", url: "/", icon: LayoutDashboard },
+  { title: "Smart Email Generator", url: "/email", icon: Mail },
+  { title: "Meeting Notes Summarizer", url: "/summarizer", icon: FileText },
+  { title: "AI Task Planner", url: "/planner", icon: ListChecks },
 ];
 
 export function AppSidebar() {
