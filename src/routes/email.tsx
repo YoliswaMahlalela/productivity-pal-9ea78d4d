@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Mail, Sparkles } from "lucide-react";
+import { Mail, Sparkles, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
@@ -16,7 +16,9 @@ import {
 } from "@/components/ui/select";
 import { PageHeader } from "@/components/PageHeader";
 import { LoadingShimmer, ResultCard } from "@/components/ResultCard";
+import { ResponsibleAI } from "@/components/ResponsibleAI";
 import { generateEmail } from "@/lib/ai.functions";
+
 
 export const Route = createFileRoute("/email")({
   head: () => ({
@@ -93,8 +95,18 @@ function EmailPage() {
                 </SelectContent>
               </Select>
             </div>
-            <Button onClick={onGenerate} disabled={loading} size="lg" className="gap-2">
-              <Sparkles className="h-4 w-4" />
+            <Button
+              onClick={onGenerate}
+              disabled={loading || !topic.trim()}
+              size="lg"
+              className="gap-2 transition-all"
+              aria-busy={loading}
+            >
+              {loading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Sparkles className="h-4 w-4" />
+              )}
               {loading ? "Generating..." : "Generate Email"}
             </Button>
           </div>
@@ -105,6 +117,11 @@ function EmailPage() {
         {loading && <LoadingShimmer label="Drafting your email..." />}
         {!loading && result && <ResultCard title="Generated Email" text={result} />}
       </div>
+
+      <div className="mt-8">
+        <ResponsibleAI compact />
+      </div>
     </div>
   );
 }
+

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { FileText, Sparkles } from "lucide-react";
+import { FileText, Sparkles, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
@@ -9,7 +9,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { PageHeader } from "@/components/PageHeader";
 import { LoadingShimmer, ResultCard } from "@/components/ResultCard";
+import { ResponsibleAI } from "@/components/ResponsibleAI";
 import { summarizeNotes } from "@/lib/ai.functions";
+
 
 export const Route = createFileRoute("/summarizer")({
   head: () => ({
@@ -71,8 +73,18 @@ function SummarizerPage() {
             />
           </div>
           <div className="flex justify-end">
-            <Button onClick={onGenerate} disabled={loading} size="lg" className="gap-2">
-              <Sparkles className="h-4 w-4" />
+            <Button
+              onClick={onGenerate}
+              disabled={loading || !notes.trim()}
+              size="lg"
+              className="gap-2 transition-all"
+              aria-busy={loading}
+            >
+              {loading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Sparkles className="h-4 w-4" />
+              )}
               {loading ? "Summarizing..." : "Summarize Notes"}
             </Button>
           </div>
@@ -83,6 +95,11 @@ function SummarizerPage() {
         {loading && <LoadingShimmer label="Extracting key points..." />}
         {!loading && result && <ResultCard title="Meeting Summary" text={result} />}
       </div>
+
+      <div className="mt-8">
+        <ResponsibleAI compact />
+      </div>
     </div>
   );
 }
+
